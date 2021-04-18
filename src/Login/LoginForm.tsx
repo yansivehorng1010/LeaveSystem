@@ -5,10 +5,10 @@ export const LoginForm = () => {
   const [passWord, setPassword] = useState('');
   const history = useHistory();
   const handleSubmit = async () => {
-    // console.warn(email, passWord);
+    console.warn(email, passWord);
     let item = { email, passWord };
     let result = await fetch(
-      'https://booking-room-api.herokuapp.com/auth/login',
+      'http://114.119.182.183:8080/ClaimRest/users/login',
       {
         method: 'Post',
         body: JSON.stringify(item),
@@ -16,7 +16,7 @@ export const LoginForm = () => {
     );
     result = await result.json();
     localStorage.setItem('user-login', JSON.stringify(result));
-    history.push('/LinkToPage');
+    history.push('/Dashboard');
   };
 
   return (
@@ -25,7 +25,7 @@ export const LoginForm = () => {
         Register Form Login
       </h2>
       <div className="flex justify-center ">
-        <form className="w-full px-8 pt-6 pb-8 mt-8 bg-green-400 rounded shadow-md lg:w-1/4">
+        <form className="w-full px-8 pt-6 pb-8 mt-8 bg-green-200 rounded shadow-md lg:w-1/4">
           <div className="mb-4">
             <label
               className="block mb-2 text-sm font-bold text-gray-700"
