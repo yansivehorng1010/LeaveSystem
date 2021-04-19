@@ -22,7 +22,7 @@ export const LoginForm = () => {
   return (
     <div className="h-full mt-8">
       <h2 className="text-2xl font-bold text-center text-gray-700">
-        Register Form Login
+        Claim & Leave System
       </h2>
       <div className="flex justify-center ">
         <form className="w-full px-8 pt-6 pb-8 mt-8 bg-green-200 rounded shadow-md lg:w-1/4">
@@ -53,9 +53,9 @@ export const LoginForm = () => {
               type="password"
               placeholder="***********"
             />
-            <p className="text-xs italic text-red-500">
+            {/* <p className="text-xs italic text-red-500">
               Please choose a password.
-            </p>
+            </p> */}
           </div>
           <div className="flex items-center justify-between">
             <button
