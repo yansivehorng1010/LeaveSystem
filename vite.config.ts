@@ -6,10 +6,10 @@ import reactRefresh from '@vitejs/plugin-react-refresh';
 export default defineConfig({
   resolve: {
     alias: {
-      Testing: path.resolve(__dirname, './src/Testing'),
+      Icons: path.resolve(__dirname, './src/Icons'),
       Login: path.resolve(__dirname, './src/Login'),
-      Page: path.resolve(__dirname, './src/Page'),
-      LinkPage: path.resolve(__dirname, './src/LinkPage'),
+      Components: path.resolve(__dirname, './src/Components'),
+      Company: path.resolve(__dirname, './src/Company'),
     },
   },
   plugins: [reactRefresh()],
