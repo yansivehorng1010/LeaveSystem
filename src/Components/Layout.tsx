@@ -1,21 +1,22 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import LogoIG from '../assets/image/LogoIG.svg';
 import { SidebarData } from './SidebarData';
 import { SubMenu } from './SubMenu';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { arr } from '../Components/nav';
-import { Setting } from '../Page/Setting';
+import { arr } from './nav';
 
-export const Dashboard = () => {
+export const Layout = () => {
   const history = useHistory();
   const logOut = () => {
     localStorage.clear();
-    history.push('/LoginForm');
+    history.push('/login');
   };
+  const auth = JSON.parse(localStorage.getItem('user-login') || '');
+  if (!auth) return <Redirect to="/login" />;
   return (
     <Router>
-      <div className="flex h-screen bg-gray-200">
+      <div className="flex bg-gray-200">
         <div className="fixed inset-y-0 left-0 z-30 w-64 overflow-y-auto transition duration-300 transform bg-gray-900 lg:translate-x-0 lg:static lg:inset-0">
           <div className="flex items-center justify-center mt-8">
             <div className="flex items-center">
@@ -47,6 +48,9 @@ export const Dashboard = () => {
             </button>
           </header>
           <div>
+            {/* <div className="flex items-center justify-center h-screen">
+              <img src={LogoIG} />
+            </div> */}
             {arr.map((d, index) => (
               <Route exact key={index} path={d.path} component={d.component} />
             ))}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 export const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [passWord, setPassword] = useState('');
@@ -16,8 +16,12 @@ export const LoginForm = () => {
     );
     result = await result.json();
     localStorage.setItem('user-login', JSON.stringify(result));
-    history.push('/Dashboard');
+    history.push('/dashboard');
   };
+  //   console.log(localStorage.getItem('user-login'), '000');
+  const auth = JSON.parse(localStorage.getItem('user-login') || '');
+  if (auth) return <Redirect to="/dashboard" />;
+  console.log(auth, '==>auth');
 
   return (
     <div className="h-full mt-8">
