@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 export const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [passWord, setPassword] = useState('');
@@ -16,17 +16,21 @@ export const LoginForm = () => {
     );
     result = await result.json();
     localStorage.setItem('user-login', JSON.stringify(result));
-    history.push('/Dashboard');
+    history.push('/dashboard');
   };
+  //   console.log(localStorage.getItem('user-login'), '000');
+  const auth = JSON.parse(localStorage.getItem('user-login') || '');
+  if (auth) return <Redirect to="/dashboard" />;
+  console.log(auth, '==>auth');
 
   return (
     <div className="h-full mt-8">
-      <h2 className="text-2xl font-bold text-center text-gray-700">
-        Register Form Login
-      </h2>
       <div className="flex justify-center ">
         <form className="w-full px-8 pt-6 pb-8 mt-8 bg-green-200 rounded shadow-md lg:w-1/4">
-          <div className="mb-4">
+          <h2 className="text-2xl font-bold text-center text-gray-700">
+            Claim & Leave System
+          </h2>
+          <div className="py-5 mb-4">
             <label
               className="block mb-2 text-sm font-bold text-gray-700"
               placeholder="Email"
@@ -53,9 +57,6 @@ export const LoginForm = () => {
               type="password"
               placeholder="***********"
             />
-            <p className="text-xs italic text-red-500">
-              Please choose a password.
-            </p>
           </div>
           <div className="flex items-center justify-between">
             <button
@@ -63,7 +64,7 @@ export const LoginForm = () => {
               className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
               type="button"
             >
-              Sign In
+              Login
             </button>
           </div>
         </form>

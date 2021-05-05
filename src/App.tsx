@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { LoginForm } from './Login/LoginForm';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Dashboard } from './LinkPage/Dashboard';
+import { Layout } from './Components/Layout';
 function App() {
   return (
     <Router>
-      <Route exact path="/" component={LoginForm} />
-      <Route exact path="/Dashboard" component={Dashboard} />
+      <Switch>
+        <Route path="/login" component={LoginForm} />
+        <Route path="/" component={Layout} />
+        {/* <Route path="/" component={LoginForm} /> */}
+
+        {/* <Route exact path="/setting/company" component={Company} /> */}
+      </Switch>
     </Router>
   );
 }
