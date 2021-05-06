@@ -1,6 +1,7 @@
 import { Setting } from '../Page/Setting';
 import { Company } from '../Page/Company';
 import Dashboard from '../Page/Dashboard';
+import Team from '../Page/Team';
 
 export const arr = [
   {
@@ -14,5 +15,9 @@ export const arr = [
   {
     path: '/setting/company',
     component: Company,
+  },
+  {
+    path: '/setting/Team',
+    component: Team,
   },
 ];

@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from 'react';
 import { Button, Pagination, Popconfirm, Table } from 'antd';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { AddNew } from './AddNew';
-import { Update } from './Update';
-export const Company = () => {
+import { EditTeam } from './EditTeam';
+
+const index = () => {
   const [state, setState] = useState([]);
   const [pagination, setPagination] = useState({ offset: 0, max: 10 });
   const [loading, setLoading] = useState(false);
   const [length, setLength] = useState(10);
   useEffect(() => {
-    getData(pagination);
+    getListData(pagination);
   }, [pagination]);
-  const getData = async (params: any) => {
+  const getListData = async (params: any) => {
+    console.log('params==>', params);
     setLoading(true);
     await axios
-      .get('http://114.119.182.183:8080/ClaimRest/company/list', {
+      .get('http://114.119.182.183:8080/ClaimRest/team/list', {
         params,
       })
       .then((res) => {
-        console.log(res, 'rest===>');
         setLength(res?.data?.length);
         setState(res?.data?.results);
+        console.log(res, 'rest===>');
       });
 
     setLoading(false);
   };
-  console.log(length, 'length==>');
-
+  console.log('state==>', state);
   const columns = [
     {
       title: 'No',
@@ -35,15 +36,21 @@ export const Company = () => {
       width: 5,
     },
     {
-      title: 'Name English',
-      dataIndex: 'companyNameEn',
-      key: 'companyNameEn',
+      title: 'Team Name English',
+      dataIndex: 'teamNameEn',
+      key: 'teamNameEn',
       width: 100,
     },
     {
-      title: 'Name Khmer',
-      dataIndex: 'companyNameKh',
-      key: 'companyNameKh',
+      title: 'Team Name Khmer',
+      dataIndex: 'teamNameKh',
+      key: 'teamNameKh',
+      width: 100,
+    },
+    {
+      title: 'Company',
+      dataIndex: 'companyNameEn',
+      key: 'companyNameEn',
       width: 100,
     },
     {
@@ -54,10 +61,10 @@ export const Company = () => {
       render: (id: any, record: any) => (
         <div className="flex flex-row w-6 space-x-3 shadow-sm">
           <div>
-            <Update
+            <EditTeam
               id={id}
               record={record}
-              getList={() => getData(pagination)}
+              getList={() => getListData(pagination)}
             />
           </div>
           <div>
@@ -76,19 +83,18 @@ export const Company = () => {
   ];
   const handleDelete = (id: any) => {
     axios
-      .put('http://114.119.182.183:8080/ClaimRest/company/' + id, {
+      .put('http://114.119.182.183:8080/ClaimRest/team/' + id, {
         status: false,
       })
       .then(() => {
-        getData(pagination);
+        getListData(pagination);
       })
       .catch(() => setLoading(false));
   };
-
   return (
     <div className="w-auto px-16 mx-auto mt-16 space-y-5 shadow-sm ">
       <div>
-        <AddNew getList={() => getData(pagination)} />
+        <AddNew getList={() => getListData(pagination)} />
       </div>
 
       <Table
@@ -110,3 +116,5 @@ export const Company = () => {
     </div>
   );
 };
+
+export default index;
