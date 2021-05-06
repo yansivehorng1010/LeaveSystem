@@ -2,6 +2,7 @@ import React from 'react';
 import * as AiIcons from 'react-icons/ai';
 import * as RiIcons from 'react-icons/ri';
 import * as IoIcons from 'react-icons/io';
+import * as SiIcons from 'react-icons/si';
 
 export const SidebarData = [
   {
@@ -20,6 +21,11 @@ export const SidebarData = [
         title: 'Team',
         path: '/setting/team',
         icon: <RiIcons.RiTeamLine />,
+      },
+      {
+        title: 'Level Type',
+        path: '/setting/levelType',
+        icon: <SiIcons.SiOpslevel />,
       },
     ],
   },

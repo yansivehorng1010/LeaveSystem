@@ -81,6 +81,11 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
           </Form>
         </Modal>
       </div>
+      <div>
+        <h1 className="text-2xl font-bold hover:text-yellow-400">
+          Team List Data
+        </h1>
+      </div>
       <div className="flex justify-end ">
         <Search
           placeholder="input search text"
