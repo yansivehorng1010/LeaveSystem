@@ -4,6 +4,7 @@ import * as RiIcons from 'react-icons/ri';
 import * as IoIcons from 'react-icons/io';
 import * as SiIcons from 'react-icons/si';
 import * as FcIcons from 'react-icons/Fc';
+import * as FaIcons from 'react-icons/Fa';
 
 export const SidebarData = [
   {
@@ -22,6 +23,16 @@ export const SidebarData = [
         title: 'Team',
         path: '/setting/team',
         icon: <RiIcons.RiTeamLine />,
+      },
+      {
+        title: 'Employee',
+        path: '/setting/employee',
+        icon: <FaIcons.FaAddressCard />,
+      },
+      {
+        title: 'Team Management',
+        path: '/setting/teamManagement',
+        icon: <FcIcons.FcManager />,
       },
       {
         title: 'Level Type',
