@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Input, Modal, Form } from 'antd';
+import { Button, Input, Modal, Form, InputNumber } from 'antd';
 import axios from 'axios';
 const { Search } = Input;
 const { TextArea } = Input;
-export const AddLevel: React.FC<{ getList: () => void }> = ({ getList }) => {
+export const AddApproval: React.FC<{ getList: () => void }> = ({ getList }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+
   //modal
   const showModal = () => {
     setIsModalVisible(true);
@@ -16,10 +17,10 @@ export const AddLevel: React.FC<{ getList: () => void }> = ({ getList }) => {
     setIsModalVisible(false);
   };
   //addNew
-  const addNewCompany = (e: any) => {
+  const addNewApproval = (e: any) => {
     setLoading(true);
     axios
-      .post('http://114.119.182.183:8080/ClaimRest/permissionType', { ...e })
+      .post('http://114.119.182.183:8080/ClaimRest/approvalLevel', { ...e })
       .then(() => {
         getList();
         setLoading(false);
@@ -34,36 +35,44 @@ export const AddLevel: React.FC<{ getList: () => void }> = ({ getList }) => {
           + Add New
         </Button>
         <Modal
-          title="Add New Team"
+          title="Add New Approval Level"
           visible={isModalVisible}
           onOk={() => form.submit()}
           onCancel={handleCancel}
           confirmLoading={loading}
         >
-          <Form onFinish={addNewCompany} form={form} method="post">
+          <Form onFinish={addNewApproval} form={form} method="post">
             <Form.Item
-              label="Permission Type"
-              name="name"
-              rules={[{ required: true, message: 'Please Permission Type!' }]}
+              label="Level Name"
+              name="levelName"
+              rules={[{ required: true, message: 'Please Input Level Name!' }]}
             >
               <Input
-                id="name"
-                name="name"
+                id="levelName"
+                name="levelName"
                 type="text"
-                placeholder="Team Name English"
+                placeholder="Level Name"
               />
             </Form.Item>
 
             <Form.Item
-              label="Numbers of days"
-              name="numberLeaveDay"
-              rules={[{ required: true, message: 'Please Numbers of days!' }]}
+              label="Level Number"
+              name="levelNumber"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please Input Level Number (Number only)!',
+                },
+              ]}
             >
-              <Input
-                id="numberLeaveDay"
-                name="numberLeaveDay"
-                type="text"
-                placeholder="Number of days"
+              <InputNumber
+                style={{ width: 360 }}
+                min={1}
+                max={100}
+                id="levelNumber"
+                name="levelNumber"
+                // placeholder="Input Number only"
+                defaultValue={0}
               />
             </Form.Item>
             <Form.Item
@@ -88,10 +97,10 @@ export const AddLevel: React.FC<{ getList: () => void }> = ({ getList }) => {
       </div>
       <div>
         <h1 className="text-2xl font-bold hover:text-yellow-400">
-          Level Type List Data
+          Approval Level List Data
         </h1>
       </div>
-      <div className="flex justify-end ">
+      <div className="flex justify-end">
         <Search
           placeholder="input search text"
           //   onSearch={onSearch}

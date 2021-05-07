@@ -3,6 +3,7 @@ import { Company } from '../Page/Company';
 import Dashboard from '../Page/Dashboard';
 import Team from '../Page/Team';
 import LevelType from '../Page/LevelType';
+import ApprovalLevel from '../Page/ApprovalLevel';
 
 export const arr = [
   {
@@ -24,5 +25,9 @@ export const arr = [
   {
     path: '/setting/levelType',
     component: LevelType,
+  },
+  {
+    path: '/setting/approvalLevel',
+    component: ApprovalLevel,
   },
 ];

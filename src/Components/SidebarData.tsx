@@ -3,6 +3,7 @@ import * as AiIcons from 'react-icons/ai';
 import * as RiIcons from 'react-icons/ri';
 import * as IoIcons from 'react-icons/io';
 import * as SiIcons from 'react-icons/si';
+import * as FcIcons from 'react-icons/Fc';
 
 export const SidebarData = [
   {
@@ -26,6 +27,11 @@ export const SidebarData = [
         title: 'Level Type',
         path: '/setting/levelType',
         icon: <SiIcons.SiOpslevel />,
+      },
+      {
+        title: 'Approval Level',
+        path: '/setting/approvalLevel',
+        icon: <FcIcons.FcApproval />,
       },
     ],
   },
