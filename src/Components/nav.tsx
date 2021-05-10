@@ -4,7 +4,7 @@ import Dashboard from '../Page/Dashboard';
 import Team from '../Page/Team';
 import LevelType from '../Page/LevelType';
 import ApprovalLevel from '../Page/ApprovalLevel';
-import Employee from '../Page/Employee';
+// import Employee from '../Page/Employee';
 import TeamManagement from '../Page/TeamManagement';
 
 export const arr = [
@@ -32,10 +32,10 @@ export const arr = [
     path: '/setting/approvalLevel',
     component: ApprovalLevel,
   },
-  {
-    path: '/setting/employee',
-    component: Employee,
-  },
+  //   {
+  //     path: '/setting/employee',
+  //     component: Employee,
+  //   },
   {
     path: '/setting/teamManagement',
     component: TeamManagement,
