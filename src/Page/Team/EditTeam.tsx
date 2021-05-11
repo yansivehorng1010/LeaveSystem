@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Input, Modal, Form, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Input, Modal, Form, Button, Select } from 'antd';
 import axios from 'axios';
 const { TextArea } = Input;
 export const EditTeam: React.FC<{
@@ -17,8 +17,9 @@ export const EditTeam: React.FC<{
     form.setFieldsValue({
       teamNameEn: record.teamNameEn,
       teamNameKh: record.teamNameKh,
+      companyNameEn: record.company.companyNameEn,
       description: record.description,
-      //   companyNameEn: record.company.companyNameEn,
+      //   ,
     });
   };
   const handleCancel = () => {
@@ -28,7 +29,10 @@ export const EditTeam: React.FC<{
   const editCompany = (e: any) => {
     setLoading(true);
     axios
-      .put('http://114.119.182.183:8080/ClaimRest/team/' + id, { ...e })
+      .put('http://114.119.182.183:8080/ClaimRest/team/' + id, {
+        ...e,
+        id: e.companyNameEn,
+      })
       .then(() => {
         getList();
         handleCancel();
@@ -74,6 +78,23 @@ export const EditTeam: React.FC<{
               placeholder="Team Name Khmer"
             />
           </Form.Item>
+          {/* <Form.Item
+            label="Company"
+            name="companyNameEn"
+            rules={[{ required: true, message: 'Please Team Name Khmer!' }]}
+          >
+            <Select
+              showSearch
+              id="companyNameEn"
+              style={{ width: 380 }}
+              placeholder="----select company----"
+              optionFilterProp="children"
+            >
+              {state?.company.map((x: any, id: any) => (
+                <Option value="0">{x.companyNameEn}</Option>
+              ))}
+            </Select>
+          </Form.Item> */}
           <Form.Item
             label="Description"
             name="description"
