@@ -11,7 +11,6 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
   const [state, setState] = useState();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [length, setLength] = useState(10);
   //modal
   const showModal = () => {
     setIsModalVisible(true);
