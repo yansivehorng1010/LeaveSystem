@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export const SubMenu = ({ item }) => {
+export const SubMenu = (props: any) => {
+  const { item } = props;
   const [subnav, setSubnav] = useState(false);
   const showSubnav = () => setSubnav(!subnav);
 
@@ -26,7 +27,7 @@ export const SubMenu = ({ item }) => {
         item.subNav.map((item: any, index: any) => {
           return (
             <Link to={item.path} key={index}>
-              <div className="flex px-12 py-2 text-gray-100 bg-gray-600 ">
+              <div className="flex px-12 py-2 text-gray-100 hover:bg-gray-700">
                 <div className="flex justify-start">
                   <div className="mt-1">{item.icon}</div>
                   <span className="mx-3">{item.title}</span>

@@ -20,19 +20,20 @@ export const AddManagement: React.FC<{ getList: () => void }> = ({
     setIsModalVisible(false);
   };
   //addNew
-  const addNewTeamManagement = (e: any) => {
+  const addNewTeamManagement = (data: any) => {
+    console.log('data----->', data);
     setLoading(true);
     axios
       .post('http://114.119.182.183:8080/ClaimRest/team-management', {
-        ...e,
+        ...data,
         // team: { id: e.teamNameEn },
         // company: { id: e.company },
         // supervisor: { id: e.nameEn },
         // head: { id: e.head.nameEn },
 
-        team: { id: e.team },
-        company: { id: e.company },
-        supervisor: { id: e.supervisor },
+        team: { id: data.team },
+        company: { id: data.company },
+        supervisor: { id: data.supervisor },
         // head: { id: e.head },
       })
       .then(() => {
@@ -50,7 +51,7 @@ export const AddManagement: React.FC<{ getList: () => void }> = ({
     axios
       .get('http://114.119.182.183:8080/ClaimRest/team-management/getDropDown')
       .then((res) => {
-        console.log('res=========>', res);
+        // console.log('res=========>', res);
         setState(res?.data?.results);
       });
   };
@@ -168,11 +169,7 @@ export const AddManagement: React.FC<{ getList: () => void }> = ({
           </Form>
         </Modal>
       </div>
-      <div>
-        <h1 className="text-2xl font-bold hover:text-yellow-400">
-          Team Management List Data
-        </h1>
-      </div>
+
       <div className="flex justify-end ">
         <Search
           placeholder="input search text"

@@ -60,6 +60,7 @@ export const EditTeam: React.FC<{
 
   return (
     <div>
+    
       <Button type="primary" onClick={showModal}>
         Editor
       </Button>
