@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Input, Modal, Form, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Input, Modal, Form, Button, Select } from 'antd';
 import axios from 'axios';
-
+const { Option } = Select;
 export const EditTeamManagement: React.FC<{
   id: any;
   record: any;
@@ -10,6 +10,7 @@ export const EditTeamManagement: React.FC<{
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [state, setState] = useState() as any;
   console.log('record====>', record);
   //modal
   const showModal = () => {
@@ -30,6 +31,9 @@ export const EditTeamManagement: React.FC<{
     axios
       .put('http://114.119.182.183:8080/ClaimRest/team-management/' + id, {
         ...e,
+        team: { id: e.team },
+        company: { id: e.company },
+        supervisor: { id: e.supervisor },
       })
       .then(() => {
         getList();
@@ -37,6 +41,29 @@ export const EditTeamManagement: React.FC<{
         setLoading(false);
       })
       .catch(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    getDropDownList();
+  }, []);
+
+  const getDropDownList = () => {
+    axios
+      .get('http://114.119.182.183:8080/ClaimRest/team-management/getDropDown')
+      .then((res) => {
+        console.log('res=========>', res);
+        setState(res?.data?.results);
+      });
+  };
+  const handleChange = (value: any) => {
+    const companyName = state.team.find((item: any) => item.id === value);
+    form.setFieldsValue({
+      companyNameEn:
+        companyName.company === null || ''
+          ? ''
+          : companyName.company.companyNameEn,
+      team: companyName.id,
+    });
   };
   return (
     <div>
@@ -50,18 +77,32 @@ export const EditTeamManagement: React.FC<{
         onCancel={handleCancel}
         confirmLoading={loading}
       >
-        <Form onFinish={editTeamManagement} form={form} method="put">
+        <Form
+          onFinish={editTeamManagement}
+          form={form}
+          method="put"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+        >
           <Form.Item
             label="Team"
             name="teamNameEn"
             rules={[{ required: true, message: 'Please Team Name English!' }]}
           >
-            <Input
+            <Select
+              showSearch
               id="teamNameEn"
-              name="teamNameEn"
-              type="text"
-              //   placeholder="Team Name English"
-            />
+              value="teamNameEn"
+              placeholder="----select team english----"
+              optionFilterProp="children"
+              onChange={handleChange}
+            >
+              {state?.team.map((x: any, index: any) => (
+                <Option value={x.id} key={index}>
+                  {x.teamNameEn}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <Form.Item
@@ -70,15 +111,13 @@ export const EditTeamManagement: React.FC<{
             rules={[{ required: true, message: 'Please input Company Name!' }]}
           >
             <Input
-              id="companyNameEn"
-              name="companyNameEn"
               type="text"
               //   placeholder="Team Name Khmer"
             />
           </Form.Item>
           <Form.Item
             label="Supervisor"
-            name="nameEn"
+            name="supervisor"
             rules={[
               {
                 required: true,
@@ -86,16 +125,23 @@ export const EditTeamManagement: React.FC<{
               },
             ]}
           >
-            <Input
+            <Select
+              showSearch
               id="nameEn"
-              name="nameEn"
-              type="text"
-              //   placeholder="Team Name Khmer"
-            />
+              value="nameEn"
+              placeholder="----select supervisor----"
+              optionFilterProp="children"
+            >
+              {state?.supervisor.map((x: any, index: any) => (
+                <Option value={x.id} key={index}>
+                  {x.nameEn}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item
             label="Head"
-            name="nameEn"
+            name="head"
             rules={[
               {
                 required: true,
@@ -103,12 +149,19 @@ export const EditTeamManagement: React.FC<{
               },
             ]}
           >
-            <Input
-              id="nameEn"
-              name="name"
-              type="text"
-              //   placeholder="Team Name Khmer"
-            />
+            <Select
+              showSearch
+              // id="nameEn"
+              // value="nameEn"
+              placeholder="----select head----"
+              optionFilterProp="children"
+            >
+              {state?.head.map((x: any, index: any) => (
+                <Option value={x.id} key={index}>
+                  {x.nameEn}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
         </Form>
       </Modal>
