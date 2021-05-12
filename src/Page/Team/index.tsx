@@ -22,7 +22,7 @@ const index = () => {
       .then((res) => {
         setLength(res?.data?.length);
         setState(res?.data?.results);
-        // console.log(res, 'rest===>');
+        console.log(res, 'rest===>');
       });
 
     setLoading(false);

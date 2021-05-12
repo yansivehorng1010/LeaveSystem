@@ -8,7 +8,7 @@ const { TextArea } = Input;
 
 export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [state, setState] = useState();
+  const [state, setState] = useState() as any;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   //modal
@@ -59,7 +59,13 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
           onCancel={handleCancel}
           confirmLoading={loading}
         >
-          <Form onFinish={addNewCompany} form={form} method="post">
+          <Form
+            onFinish={addNewCompany}
+            form={form}
+            method="post"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+          >
             <Form.Item
               label="Team Name English"
               name="teamNameEn"
@@ -92,12 +98,13 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
               <Select
                 showSearch
                 id="companyNameEn"
-                style={{ width: 380 }}
+                value="companyNameEn"
+                // style={{ width: auto }}
                 placeholder="----select company----"
                 optionFilterProp="children"
               >
-                {state?.company.map((x: any, id: any) => (
-                  <Option value={x.id} key={id}>
+                {state?.company.map((x: any, index: any) => (
+                  <Option value={x.id} key={index}>
                     {x.companyNameEn}
                   </Option>
                 ))}
