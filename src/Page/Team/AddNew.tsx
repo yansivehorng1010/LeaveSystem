@@ -99,7 +99,6 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
                 showSearch
                 id="companyNameEn"
                 value="companyNameEn"
-                // style={{ width: auto }}
                 placeholder="----select company----"
                 optionFilterProp="children"
               >
