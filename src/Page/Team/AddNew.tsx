@@ -99,7 +99,6 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
                 showSearch
                 id="companyNameEn"
                 value="companyNameEn"
-                // style={{ width: auto }}
                 placeholder="----select company----"
                 optionFilterProp="children"
               >
@@ -120,7 +119,12 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
                 },
               ]}
             >
-              <TextArea rows={4} id="description" name="description" />
+              <TextArea
+                rows={4}
+                id="description"
+                name="description"
+                placeholder="input your description"
+              />
             </Form.Item>
           </Form>
         </Modal>
@@ -131,11 +135,7 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
         </h1>
       </div>
       <div className="flex justify-end ">
-        <Search
-          placeholder="input search text"
-          //   onSearch={onSearch}
-          enterButton
-        />
+        <Search placeholder="input search text" enterButton />
       </div>
     </div>
   );

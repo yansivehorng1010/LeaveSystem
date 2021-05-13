@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Input, Modal, Form, Button, Select } from 'antd';
 import axios from 'axios';
+import { FaTeamspeak } from 'react-icons/Fa';
 const { Search } = Input;
 const { Option } = Select;
 
@@ -26,15 +27,12 @@ export const AddManagement: React.FC<{ getList: () => void }> = ({
     axios
       .post('http://114.119.182.183:8080/ClaimRest/team-management', {
         ...data,
-        // team: { id: e.teamNameEn },
-        // company: { id: e.company },
-        // supervisor: { id: e.nameEn },
-        // head: { id: e.head.nameEn },
 
-        team: { id: data.team },
-        company: { id: data.company },
-        supervisor: { id: data.supervisor },
-        // head: { id: e.head },
+        team: state?.team.find((v: any) => v.id == data.teamId),
+        supervisor: state?.supervisor.find(
+          (v: any) => v.id == data.supervisorId
+        ),
+        head: state?.head.find((v: any) => v.id == data.headId),
       })
       .then(() => {
         getList();
@@ -65,6 +63,8 @@ export const AddManagement: React.FC<{ getList: () => void }> = ({
       team: companyName.id,
     });
   };
+
+  console.log('state----->', state);
   return (
     <div className="flex justify-between">
       <div className="flex justify-start">
@@ -87,13 +87,11 @@ export const AddManagement: React.FC<{ getList: () => void }> = ({
           >
             <Form.Item
               label="Team"
-              name="teamNameEn"
+              name="teamId"
               rules={[{ required: true, message: 'Please Team Name English!' }]}
             >
               <Select
                 showSearch
-                id="teamNameEn"
-                value="teamNameEn"
                 placeholder="----select team english----"
                 optionFilterProp="children"
                 onChange={handleChange}
@@ -115,12 +113,13 @@ export const AddManagement: React.FC<{ getList: () => void }> = ({
             >
               <Input
                 type="text"
+                disabled
                 //   placeholder="Team Name Khmer"
               />
             </Form.Item>
             <Form.Item
               label="Supervisor"
-              name="supervisor"
+              name="supervisorId"
               rules={[
                 {
                   required: true,
@@ -130,8 +129,6 @@ export const AddManagement: React.FC<{ getList: () => void }> = ({
             >
               <Select
                 showSearch
-                id="nameEn"
-                value="nameEn"
                 placeholder="----select supervisor----"
                 optionFilterProp="children"
               >
@@ -144,7 +141,7 @@ export const AddManagement: React.FC<{ getList: () => void }> = ({
             </Form.Item>
             <Form.Item
               label="Head"
-              name="head"
+              name="headId"
               rules={[
                 {
                   required: true,
@@ -154,8 +151,6 @@ export const AddManagement: React.FC<{ getList: () => void }> = ({
             >
               <Select
                 showSearch
-                // id="nameEn"
-                // value="nameEn"
                 placeholder="----select head----"
                 optionFilterProp="children"
               >
