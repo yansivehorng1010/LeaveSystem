@@ -10,6 +10,7 @@ export const EditTeam: React.FC<{
 }> = ({ id, record, getList }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [companyData, setCompanyData] = useState([]);
+  const [companyId, setCompanyId] = useState(0);
   const [form] = Form.useForm();
   const [state, setState] = useState({}) as any;
   const [loading, setLoading] = useState(false);
@@ -19,12 +20,6 @@ export const EditTeam: React.FC<{
     setState(record);
     setIsModalVisible(true);
     form.resetFields();
-    // form.setFieldsValue({
-    //   teamNameEn: 'horng',
-    //   teamNameKh: record.teamNameKh,
-    //   companyNameEn: record.company.companyNameEn,
-    //   description: record.description,
-    // });
   };
   const handleCancel = () => {
     form.resetFields();
@@ -36,7 +31,7 @@ export const EditTeam: React.FC<{
     axios
       .put('http://114.119.182.183:8080/ClaimRest/team/' + id, {
         ...e,
-        company: companyData.find((v: any) => v.id == e.companyNameEn),
+        company: companyData.find((v: any) => v.id == companyId),
       })
       .then(() => {
         getList();
@@ -52,7 +47,6 @@ export const EditTeam: React.FC<{
     axios
       .get('http://114.119.182.183:8080/ClaimRest/team/getDropDown')
       .then((res) => {
-        // setState(res?.data?.results);
         setCompanyData(res?.data?.results.company);
       });
   };
@@ -79,7 +73,6 @@ export const EditTeam: React.FC<{
           <Form.Item
             label="Team Name English"
             name="teamNameEn"
-            // initialValue={state.teamNameEn}
             rules={[{ required: true, message: 'Please Team Name English!' }]}
           >
             <Input type="text" placeholder="Team Name English" />
@@ -88,24 +81,21 @@ export const EditTeam: React.FC<{
           <Form.Item
             label="Team Name Khmer"
             name="teamNameKh"
-            // initialValue={state?.teamNameKh}
             rules={[{ required: true, message: 'Please Team Name Khmer!' }]}
           >
             <Input type="text" placeholder="Team Name Khmer" />
           </Form.Item>
           <Form.Item
             label="Company"
-            name="companyNameEn"
-            // initialValue={state?.company?.id}
             rules={[{ required: true, message: 'Please Team Name Khmer!' }]}
           >
             <Select
               showSearch
-              //   id="companyNameEn"
               style={{ width: 380 }}
               placeholder="----select company----"
               optionFilterProp="children"
-              value={state?.company?.id}
+              value={companyId || state?.company?.id}
+              onChange={(value: any) => setCompanyId(value)}
             >
               {companyData.map((x: any, index: any) => (
                 <Option value={x.id} key={index}>
@@ -125,7 +115,12 @@ export const EditTeam: React.FC<{
               },
             ]}
           >
-            <TextArea rows={4} id="description" name="description" />
+            <TextArea
+              rows={4}
+              id="description"
+              name="description"
+              placeholder="input your description"
+            />
           </Form.Item>
         </Form>
       </Modal>

@@ -11,16 +11,13 @@ export const EditTeamManagement: React.FC<{
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [state, setState] = useState() as any;
+  const [supervisorId, setSupervisorId] = useState(0);
+  const [teamId, setTeamId] = useState(0);
+  const [headId, setHeadId] = useState(0);
   console.log('record====>', record);
   //modal
   const showModal = () => {
     setIsModalVisible(true);
-    form.setFieldsValue({
-      teamNameEn: record.team.teamNameEn,
-      companyNameEn: record.team.company.companyNameEn,
-      nameEn: record.supervisor.nameEn,
-      name: record.head.nameEn,
-    });
   };
   const handleCancel = () => {
     form.resetFields();
@@ -31,9 +28,8 @@ export const EditTeamManagement: React.FC<{
     axios
       .put('http://114.119.182.183:8080/ClaimRest/team-management/' + id, {
         ...e,
-        team: { id: e.team },
-        company: { id: e.company },
-        supervisor: { id: e.supervisor },
+        supervisor: state.find((v: any) => v.id == supervisorId),
+        head: state.find((v: any) => v.id == headId),
       })
       .then(() => {
         getList();
@@ -55,14 +51,11 @@ export const EditTeamManagement: React.FC<{
         setState(res?.data?.results);
       });
   };
-  const handleChange = (value: any) => {
-    const companyName = state.team.find((item: any) => item.id === value);
+  const handleChangeTeam = (value: any) => {
+    setTeamId(value);
+    const team = state.team.find((item: any) => item.id === value);
     form.setFieldsValue({
-      companyNameEn:
-        companyName.company === null || ''
-          ? ''
-          : companyName.company.companyNameEn,
-      team: companyName.id,
+      companyNameEn: team.company.companyNameEn,
     });
   };
   return (
@@ -86,16 +79,15 @@ export const EditTeamManagement: React.FC<{
         >
           <Form.Item
             label="Team"
-            name="teamNameEn"
             rules={[{ required: true, message: 'Please Team Name English!' }]}
           >
             <Select
               showSearch
-              id="teamNameEn"
-              value="teamNameEn"
+              value={teamId || record.team.id}
               placeholder="----select team english----"
               optionFilterProp="children"
-              onChange={handleChange}
+              //   onChange={(v: any) => setTeamId(v)}
+              onChange={handleChangeTeam}
             >
               {state?.team.map((x: any, index: any) => (
                 <Option value={x.id} key={index}>
@@ -108,16 +100,13 @@ export const EditTeamManagement: React.FC<{
           <Form.Item
             label="Company"
             name="companyNameEn"
+            initialValue={record?.team?.company?.companyNameEn}
             rules={[{ required: true, message: 'Please input Company Name!' }]}
           >
-            <Input
-              type="text"
-              //   placeholder="Team Name Khmer"
-            />
+            <Input disabled type="text" />
           </Form.Item>
           <Form.Item
             label="Supervisor"
-            name="supervisor"
             rules={[
               {
                 required: true,
@@ -127,10 +116,10 @@ export const EditTeamManagement: React.FC<{
           >
             <Select
               showSearch
-              id="nameEn"
-              value="nameEn"
+              value={supervisorId || record?.supervisor.id}
               placeholder="----select supervisor----"
               optionFilterProp="children"
+              onChange={(value: any) => setSupervisorId(value)}
             >
               {state?.supervisor.map((x: any, index: any) => (
                 <Option value={x.id} key={index}>
@@ -141,7 +130,6 @@ export const EditTeamManagement: React.FC<{
           </Form.Item>
           <Form.Item
             label="Head"
-            name="head"
             rules={[
               {
                 required: true,
@@ -151,10 +139,10 @@ export const EditTeamManagement: React.FC<{
           >
             <Select
               showSearch
-              // id="nameEn"
-              // value="nameEn"
               placeholder="----select head----"
               optionFilterProp="children"
+              value={headId || record?.head.id}
+              onChange={(value: any) => setHeadId(value)}
             >
               {state?.head.map((x: any, index: any) => (
                 <Option value={x.id} key={index}>

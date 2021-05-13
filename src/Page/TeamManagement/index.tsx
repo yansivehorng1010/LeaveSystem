@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Pagination, Popconfirm, Table } from 'antd';
+import { Button, Card, Pagination, Popconfirm, Table } from 'antd';
 import axios from 'axios';
 import { EditTeamManagement } from './EditTeamManagement';
 import { AddManagement } from './AddManagement';
@@ -20,12 +20,13 @@ const index = () => {
       .then((res) => {
         console.log(res, 'rest===>');
         setLength(res?.data?.length);
-        console.log('data====>', setState(res?.data?.results));
+        setState(res?.data?.results);
+        // console.log('data====>', );
       });
 
     setLoading(false);
   };
-  console.log(length, 'length==>');
+  //   console.log(length, 'length==>');
 
   const columns = [
     {
@@ -100,25 +101,37 @@ const index = () => {
 
   return (
     <div className="w-auto px-16 mx-auto mt-16 space-y-5 shadow-sm ">
-      <div>
-        <AddManagement getList={() => getData(pagination)} />
-      </div>
-      <Table
-        columns={columns}
-        loading={loading}
-        bordered
-        dataSource={state}
-        pagination={false}
-      />
-      <div className="flex justify-end pb-10">
-        <Pagination
-          defaultCurrent={1}
-          total={length}
-          onChange={(offset: any, max: any) =>
-            setPagination({ offset: offset - 1, max })
-          }
+      <Card
+        title={
+          <div>
+            <h1 className="text-2xl font-bold text-center hover:text-yellow-400">
+              Team Management List Data
+            </h1>
+          </div>
+        }
+        // extra={<a href="#"></a>}
+        style={{ backgroundColor: 'white' }}
+      >
+        <div className="pb-10">
+          <AddManagement getList={() => getData(pagination)} />
+        </div>
+        <Table
+          columns={columns}
+          loading={loading}
+          bordered
+          dataSource={state}
+          pagination={false}
         />
-      </div>
+        <div className="flex justify-end pt-8">
+          <Pagination
+            defaultCurrent={1}
+            total={length}
+            onChange={(offset: any, max: any) =>
+              setPagination({ offset: offset - 1, max })
+            }
+          />
+        </div>
+      </Card>
     </div>
   );
 };

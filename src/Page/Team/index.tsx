@@ -1,4 +1,4 @@
-import { Button, Pagination, Popconfirm, Table } from 'antd';
+import { Button, Card, Pagination, Popconfirm, Table } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { AddNew } from './AddNew';
