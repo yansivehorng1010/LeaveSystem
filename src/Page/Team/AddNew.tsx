@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Button, Input, Modal, Form } from 'antd';
 import axios from 'axios';
 const { Search } = Input;
+const { TextArea } = Input;
 export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-
   //modal
   const showModal = () => {
     setIsModalVisible(true);
@@ -19,7 +19,7 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
   const addNewCompany = (e: any) => {
     setLoading(true);
     axios
-      .post('http://114.119.182.183:8080/ClaimRest/company', { ...e })
+      .post('http://114.119.182.183:8080/ClaimRest/team', { ...e })
       .then(() => {
         getList();
         setLoading(false);
@@ -34,7 +34,7 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
           + Add New
         </Button>
         <Modal
-          title="Add New Company"
+          title="Add New Team"
           visible={isModalVisible}
           onOk={() => form.submit()}
           onCancel={handleCancel}
@@ -42,43 +42,51 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
         >
           <Form onFinish={addNewCompany} form={form} method="post">
             <Form.Item
-              label="Company Name English"
-              name="companyNameEn"
-              rules={[
-                { required: true, message: 'Please Company Name English!' },
-              ]}
+              label="Team Name English"
+              name="teamNameEn"
+              rules={[{ required: true, message: 'Please Team Name English!' }]}
             >
               <Input
-                id="companyNameEn"
-                name="companyNameEn"
+                id="teamNameEn"
+                name="teamNameEn"
                 type="text"
-                placeholder="Company Name English"
+                placeholder="Team Name English"
               />
             </Form.Item>
 
             <Form.Item
-              label="Company Name Khmer"
-              name="companyNameKh"
-              rules={[
-                { required: true, message: 'Please Company Name Khmer!' },
-              ]}
+              label="Team Name Khmer"
+              name="teamNameKh"
+              rules={[{ required: true, message: 'Please Team Name Khmer!' }]}
             >
               <Input
-                id="companyNameKh"
-                name="companyNameKh"
+                id="teamNameKh"
+                name="teamNameKh"
                 type="text"
-                placeholder="Company Name Khmer"
+                placeholder="Team Name Khmer"
               />
+            </Form.Item>
+            <Form.Item
+              label="Description"
+              name="description"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please write down your description!',
+                },
+              ]}
+            >
+              <TextArea rows={4} id="description" name="description" />
             </Form.Item>
           </Form>
         </Modal>
       </div>
       <div>
         <h1 className="text-2xl font-bold hover:text-yellow-400">
-          Company List Data
+          Team List Data
         </h1>
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end ">
         <Search
           placeholder="input search text"
           //   onSearch={onSearch}

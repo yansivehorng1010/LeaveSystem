@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Pagination, Popconfirm, Table } from 'antd';
 import axios from 'axios';
-import { AddNew } from './AddNew';
-import { Update } from './Update';
-export const Company = () => {
+import { AddApproval } from './AddApproval';
+import { EditApproval } from './EditApproval';
+
+const index = () => {
   const [state, setState] = useState([]);
   const [pagination, setPagination] = useState({ offset: 0, max: 10 });
   const [loading, setLoading] = useState(false);
@@ -14,7 +15,7 @@ export const Company = () => {
   const getData = async (params: any) => {
     setLoading(true);
     await axios
-      .get('http://114.119.182.183:8080/ClaimRest/company/list', {
+      .get('http://114.119.182.183:8080/ClaimRest/approvalLevel/list', {
         params,
       })
       .then((res) => {
@@ -35,15 +36,21 @@ export const Company = () => {
       width: 5,
     },
     {
-      title: 'Name English',
-      dataIndex: 'companyNameEn',
-      key: 'companyNameEn',
+      title: 'Level Name',
+      dataIndex: 'levelName',
+      key: 'levelName',
       width: 100,
     },
     {
-      title: 'Name Khmer',
-      dataIndex: 'companyNameKh',
-      key: 'companyNameKh',
+      title: 'Level Number',
+      dataIndex: 'levelNumber',
+      key: 'levelNumber',
+      width: 100,
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
       width: 100,
     },
     {
@@ -54,7 +61,7 @@ export const Company = () => {
       render: (id: any, record: any) => (
         <div className="flex flex-row w-6 space-x-3 shadow-sm">
           <div>
-            <Update
+            <EditApproval
               id={id}
               record={record}
               getList={() => getData(pagination)}
@@ -76,7 +83,7 @@ export const Company = () => {
   ];
   const handleDelete = (id: any) => {
     axios
-      .put('http://114.119.182.183:8080/ClaimRest/company/' + id, {
+      .put('http://114.119.182.183:8080/ClaimRest/approvalLevel/' + id, {
         status: false,
       })
       .then(() => {
@@ -88,7 +95,7 @@ export const Company = () => {
   return (
     <div className="w-auto px-16 mx-auto mt-16 space-y-5 shadow-sm ">
       <div>
-        <AddNew getList={() => getData(pagination)} />
+        <AddApproval getList={() => getData(pagination)} />
       </div>
       <Table
         columns={columns}
@@ -109,3 +116,5 @@ export const Company = () => {
     </div>
   );
 };
+
+export default index;

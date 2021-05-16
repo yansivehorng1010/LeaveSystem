@@ -16,7 +16,7 @@ export const Layout = () => {
   if (!auth) return <Redirect to="/login" />;
   return (
     <Router>
-      <div className="flex bg-gray-200">
+      <div className="flex min-h-screen overflow-x-auto bg-gray-200">
         <div className="fixed inset-y-0 left-0 z-30 w-64 overflow-y-auto transition duration-300 transform bg-gray-900 lg:translate-x-0 lg:static lg:inset-0">
           <div className="flex items-center justify-center mt-8">
             <div className="flex items-center">
@@ -48,9 +48,6 @@ export const Layout = () => {
             </button>
           </header>
           <div>
-            {/* <div className="flex items-center justify-center h-screen">
-              <img src={LogoIG} />
-            </div> */}
             {arr.map((d, index) => (
               <Route exact key={index} path={d.path} component={d.component} />
             ))}
