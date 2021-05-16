@@ -109,7 +109,6 @@ const index = () => {
             </h1>
           </div>
         }
-        // extra={<a href="#"></a>}
         style={{ backgroundColor: 'white' }}
       >
         <div className="pb-10">

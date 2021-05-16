@@ -86,7 +86,6 @@ export const EditTeamManagement: React.FC<{
               value={teamId || record.team.id}
               placeholder="----select team english----"
               optionFilterProp="children"
-              //   onChange={(v: any) => setTeamId(v)}
               onChange={handleChangeTeam}
             >
               {state?.team.map((x: any, index: any) => (

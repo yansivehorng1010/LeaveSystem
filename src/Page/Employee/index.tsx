@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Pagination, Popconfirm, Table } from 'antd';
+import { Button, Card, Pagination, Popconfirm, Table } from 'antd';
 import axios from 'axios';
 import { AddEmployee } from './AddEmployee';
-// import { AddApproval } from './AddApproval';
-// import { EditApproval } from './EditApproval';
+import { EditEmployee } from './EditEmployee';
+import { DetailEmployee } from './DetailEmployee';
 
 const index = () => {
   const [state, setState] = useState([]);
@@ -28,7 +28,7 @@ const index = () => {
 
     setLoading(false);
   };
-  console.log(length, 'length==>');
+  //   console.log(length, 'length==>');
 
   const columns = [
     {
@@ -77,20 +77,23 @@ const index = () => {
       title: 'Action',
       dataIndex: 'id',
       key: 'action',
-      width: 100,
+      width: 200,
       render: (id: any, record: any) => (
         <div className="flex flex-row w-6 space-x-3 shadow-sm">
           <div>
-            {/* <EditApproval
+            <EditEmployee
               id={id}
               record={record}
               getList={() => getData(pagination)}
-            /> */}
+            />
+          </div>
+          <div>
+            <DetailEmployee id={id} record={record} />
           </div>
           <div>
             <Popconfirm
               title="Do you want to delete this record?"
-              //   onConfirm={() => handleDelete(id)}
+              onConfirm={() => handleDelete(id)}
             >
               <Button type="primary" danger>
                 Delete
@@ -101,38 +104,49 @@ const index = () => {
       ),
     },
   ];
-  //   const handleDelete = (id: any) => {
-  //     axios
-  //       .put('http://114.119.182.183:8080/ClaimRest/team-management/list' + id, {
-  //         status: false,
-  //       })
-  //       .then(() => {
-  //         getData(pagination);
-  //       })
-  //       .catch(() => setLoading(false));
-  //   };
+  const handleDelete = (id: any) => {
+    axios
+      .put('http://114.119.182.183:8080/ClaimRest/employee/' + id, {
+        status: false,
+      })
+      .then(() => {
+        getData(pagination);
+      })
+      .catch(() => setLoading(false));
+  };
 
   return (
     <div className="w-auto px-16 mx-auto mt-16 space-y-5 shadow-sm ">
-      <div>
-        <AddEmployee getList={() => getData(pagination)} />
-      </div>
-      <Table
-        columns={columns}
-        loading={loading}
-        bordered
-        dataSource={state}
-        pagination={false}
-      />
-      <div className="flex justify-end pb-10">
-        <Pagination
-          defaultCurrent={1}
-          total={length}
-          onChange={(offset: any, max: any) =>
-            setPagination({ offset: offset - 1, max })
-          }
+      <Card
+        title={
+          <div>
+            <h1 className="text-2xl font-bold text-center hover:text-yellow-400">
+              Employee List Data
+            </h1>
+          </div>
+        }
+        style={{ backgroundColor: 'white' }}
+      >
+        <div className="pb-10 ">
+          <AddEmployee getList={() => getData(pagination)} />
+        </div>
+        <Table
+          columns={columns}
+          loading={loading}
+          bordered
+          dataSource={state}
+          pagination={false}
         />
-      </div>
+        <div className="flex justify-end pt-8">
+          <Pagination
+            defaultCurrent={1}
+            total={length}
+            onChange={(offset: any, max: any) =>
+              setPagination({ offset: offset - 1, max })
+            }
+          />
+        </div>
+      </Card>
     </div>
   );
 };

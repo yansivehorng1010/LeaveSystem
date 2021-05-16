@@ -49,7 +49,7 @@ export const AddManagement: React.FC<{ getList: () => void }> = ({
     axios
       .get('http://114.119.182.183:8080/ClaimRest/team-management/getDropDown')
       .then((res) => {
-        // console.log('res=========>', res);
+        console.log('res=========>', res);
         setState(res?.data?.results);
       });
   };
