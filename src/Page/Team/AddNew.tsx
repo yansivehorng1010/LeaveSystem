@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Input, Modal, Form } from 'antd';
 import axios from 'axios';
+import { Select } from 'antd';
+const { Option } = Select;
 const { Search } = Input;
 const { TextArea } = Input;
+
 export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [state, setState] = useState() as any;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   //modal
@@ -19,7 +23,10 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
   const addNewCompany = (e: any) => {
     setLoading(true);
     axios
-      .post('http://114.119.182.183:8080/ClaimRest/team', { ...e })
+      .post('http://114.119.182.183:8080/ClaimRest/team', {
+        ...e,
+        company: { id: e.companyNameEn },
+      })
       .then(() => {
         getList();
         setLoading(false);
@@ -27,6 +34,18 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
       })
       .catch(() => setLoading(false));
   };
+  useEffect(() => {
+    getCompany();
+  }, []);
+
+  const getCompany = () => {
+    axios
+      .get('http://114.119.182.183:8080/ClaimRest/team/getDropDown')
+      .then((res) => {
+        setState(res?.data?.results);
+      });
+  };
+
   return (
     <div className="flex justify-between">
       <div className="flex justify-start">
@@ -40,7 +59,13 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
           onCancel={handleCancel}
           confirmLoading={loading}
         >
-          <Form onFinish={addNewCompany} form={form} method="post">
+          <Form
+            onFinish={addNewCompany}
+            form={form}
+            method="post"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+          >
             <Form.Item
               label="Team Name English"
               name="teamNameEn"
@@ -53,7 +78,6 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
                 placeholder="Team Name English"
               />
             </Form.Item>
-
             <Form.Item
               label="Team Name Khmer"
               name="teamNameKh"
@@ -67,6 +91,25 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
               />
             </Form.Item>
             <Form.Item
+              label="Company"
+              name="companyNameEn"
+              rules={[{ required: true, message: 'Please Team Name Khmer!' }]}
+            >
+              <Select
+                showSearch
+                id="companyNameEn"
+                value="companyNameEn"
+                placeholder="----select company----"
+                optionFilterProp="children"
+              >
+                {state?.company.map((x: any, index: any) => (
+                  <Option value={x.id} key={index}>
+                    {x.companyNameEn}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
               label="Description"
               name="description"
               rules={[
@@ -76,7 +119,12 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
                 },
               ]}
             >
-              <TextArea rows={4} id="description" name="description" />
+              <TextArea
+                rows={4}
+                id="description"
+                name="description"
+                placeholder="input your description"
+              />
             </Form.Item>
           </Form>
         </Modal>
@@ -87,11 +135,7 @@ export const AddNew: React.FC<{ getList: () => void }> = ({ getList }) => {
         </h1>
       </div>
       <div className="flex justify-end ">
-        <Search
-          placeholder="input search text"
-          //   onSearch={onSearch}
-          enterButton
-        />
+        <Search placeholder="input search text" enterButton />
       </div>
     </div>
   );

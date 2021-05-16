@@ -49,7 +49,7 @@ export const EditApproval: React.FC<{
         onCancel={handleCancel}
         confirmLoading={loading}
       >
-        <Form onFinish={EditApproval} form={form} method="post">
+        <Form onFinish={EditApproval} form={form} method="put">
           <Form.Item
             label="Level Name"
             name="levelName"

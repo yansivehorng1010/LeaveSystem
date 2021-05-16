@@ -1,4 +1,4 @@
-import { Button, Pagination, Popconfirm, Table } from 'antd';
+import { Button, Card, Pagination, Popconfirm, Table } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { AddNew } from './AddNew';
@@ -13,9 +13,9 @@ const index = () => {
     getListData(pagination);
   }, [pagination]);
   const getListData = async (params: any) => {
-    console.log('params==>', params);
+    // console.log('params==>', params);
     setLoading(true);
-    await axios
+    axios
       .get('http://114.119.182.183:8080/ClaimRest/team/list', {
         params,
       })
@@ -27,7 +27,7 @@ const index = () => {
 
     setLoading(false);
   };
-  console.log('state==>', state);
+  //   console.log('state==>', state);
   const columns = [
     {
       title: 'No',
@@ -49,7 +49,7 @@ const index = () => {
     },
     {
       title: 'Company',
-      dataIndex: 'companyNameEn',
+      dataIndex: ['company', 'companyNameEn'],
       key: 'companyNameEn',
       width: 100,
     },
@@ -81,6 +81,7 @@ const index = () => {
       ),
     },
   ];
+  console.log('data=======>', setState);
   const handleDelete = (id: any) => {
     axios
       .put('http://114.119.182.183:8080/ClaimRest/team/' + id, {
